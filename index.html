@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Nervous System Has Three Modes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --text:       #1C1917;
+    --text-2:     #57534E;
+    --text-3:     #A8A29E;
+    --accent:     #6A5A8A;
+    --accent-bg:  #F0ECF5;
+    --cool:       #4A8A5A;
+    --cool-bg:    #ECF3EE;
+    --border:     #E7E5E4;
+    --bg:         #FAFAF7;
+    --surface:    #FFFFFF;
+}
+
+body {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--cool) 100%);
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+/* ---- Header ---- */
+.header { margin-bottom: 2.5rem; }
+.header-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+}
+h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+.subtitle {
+    font-size: 1.05rem;
+    color: var(--text-2);
+    font-weight: 400;
+}
+
+/* ---- Nav ---- */
+.nav {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.nav button {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.75rem 1rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-3);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+}
+.nav button:hover { color: var(--text-2); }
+.nav button.active {
+    color: var(--accent);
+    font-weight: 600;
+    border-bottom-color: var(--accent);
+}
+
+/* ---- Pages ---- */
+.page { display: none; }
+.page.active { display: block; animation: appear 0.25s ease; }
+@keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- Typography ---- */
+.section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 0.5rem;
+}
+.section-label.warm { color: var(--accent); }
+.section-label.cool { color: var(--cool); }
+
+h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+}
+h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+.body-text {
+    font-size: 0.95rem;
+    color: var(--text-2);
+    line-height: 1.8;
+}
+.body-text + .body-text { margin-top: 0.75rem; }
+.body-text strong { color: var(--text); font-weight: 600; }
+
+.timing {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-3);
+    float: right;
+    margin-top: 0.2rem;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+}
+
+/* ---- Callout ---- */
+.callout {
+    border-left: 3px solid var(--border);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+}
+.callout.warm { border-left-color: var(--accent); background: var(--accent-bg); }
+.callout.cool { border-left-color: var(--cool); background: var(--cool-bg); }
+.callout .callout-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 0.4rem;
+}
+.callout.warm .callout-label { color: var(--accent); }
+.callout.cool .callout-label { color: var(--cool); }
+.callout p { font-size: 0.9rem; color: var(--text-2); line-height: 1.7; }
+.callout p strong { color: var(--text); }
+
+/* ---- Steps ---- */
+.steps { margin: 1.5rem 0; }
+.step {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-3);
+    flex-shrink: 0;
+    width: 1.5rem;
+    text-align: right;
+}
+.step-content { flex: 1; }
+.step-q { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+.step-hint { font-size: 0.82rem; color: var(--text-3); margin-top: 0.15rem; line-height: 1.6; }
+
+/* ---- Accordion ---- */
+.accordion { margin: 1.5rem 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.acc-item { border-bottom: 1px solid var(--border); }
+.acc-item:last-child { border-bottom: none; }
+.acc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    background: var(--surface);
+    transition: background 0.15s;
+    user-select: none;
+}
+.acc-header:hover { background: var(--bg); }
+.acc-title { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+.acc-icon { font-size: 1.1rem; color: var(--text-3); transition: transform 0.2s; font-weight: 300; line-height: 1; }
+.acc-item.open .acc-icon { transform: rotate(45deg); }
+.acc-body { display: none; padding: 0 1.25rem 1.25rem; background: var(--surface); }
+.acc-item.open .acc-body { display: block; }
+.acc-body p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; }
+.acc-body p + p { margin-top: 0.75rem; }
+.acc-body ul { list-style: none; margin-top: 0.5rem; }
+.acc-body ul li {
+    font-size: 0.9rem;
+    color: var(--text-2);
+    line-height: 1.75;
+    padding-left: 1rem;
+    position: relative;
+}
+.acc-body ul li::before {
+    content: '\00b7';
+    position: absolute;
+    left: 0;
+    color: var(--text-3);
+}
+.acc-body .aside {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--text-3);
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+}
+
+/* ---- Spectrum visualization ---- */
+.spectrum-container { margin: 1.5rem 0; }
+.spectrum-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+.spectrum-item:hover { border-color: var(--accent); }
+.spectrum-item.active { border-color: var(--accent); }
+.spectrum-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+}
+.spectrum-left {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cool);
+    text-align: left;
+}
+.spectrum-middle {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 0.2rem 0.6rem;
+    background: var(--accent-bg);
+    border-radius: 3px;
+}
+.spectrum-right {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cool);
+    text-align: right;
+}
+.spectrum-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--cool), var(--accent) 50%, var(--cool));
+    opacity: 0.4;
+}
+.spectrum-item.active .spectrum-bar { opacity: 1; }
+.spectrum-detail {
+    display: none;
+    padding: 1.25rem;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+}
+.spectrum-item.active .spectrum-detail { display: block; }
+.spectrum-detail p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; }
+.spectrum-detail p + p { margin-top: 0.75rem; }
+.spectrum-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+.spectrum-col-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 0.25rem;
+}
+.spectrum-col-label.warn { color: var(--cool); }
+.spectrum-col-label.good { color: var(--accent); }
+.spectrum-col-text {
+    font-size: 0.85rem;
+    color: var(--text-2);
+    line-height: 1.7;
+}
+
+/* ---- Voting game ---- */
+.game-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0 0.75rem;
+}
+.game-counter {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-3);
+    white-space: nowrap;
+}
+.game-bar-wrap {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.game-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+}
+.game-score-display {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+}
+.scenario-tricky {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cool);
+    background: var(--cool-bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 0.75rem;
+}
+.vote-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-top: 1px solid var(--border);
+}
+.vote-btn {
+    padding: 1.1rem 0.75rem;
+    border: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, opacity 0.15s;
+    background: var(--surface);
+    color: var(--text-2);
+}
+.vote-btn:not(:last-child) { border-right: 1px solid var(--border); }
+.vote-btn.extreme-left:not(:disabled):hover { background: var(--cool-bg); color: var(--cool); }
+.vote-btn.middle-btn:not(:disabled):hover { background: var(--accent-bg); color: var(--accent); }
+.vote-btn.extreme-right:not(:disabled):hover { background: var(--cool-bg); color: var(--cool); }
+.vote-btn.correct.extreme-left { background: var(--cool-bg); color: var(--cool); }
+.vote-btn.correct.middle-btn { background: var(--accent-bg); color: var(--accent); }
+.vote-btn.correct.extreme-right { background: var(--cool-bg); color: var(--cool); }
+.vote-btn.wrong { opacity: 0.3; }
+.vote-btn:disabled { cursor: default; }
+.reveal-panel {
+    display: none;
+    padding: 1.25rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+}
+.reveal-panel.show { display: block; }
+.reveal-verdict {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+.reveal-verdict.is-middle { color: var(--accent); }
+.reveal-verdict.is-extreme { color: var(--cool); }
+.reveal-why {
+    font-size: 0.88rem;
+    color: var(--text-2);
+    line-height: 1.75;
+}
+.game-controls { text-align: right; margin: 0 0 1rem; }
+.game-next-btn {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0.5rem 0;
+    transition: opacity 0.15s;
+}
+.game-next-btn:hover { opacity: 0.7; }
+
+/* ---- Discussion ---- */
+.questions { margin: 1.5rem 0; }
+.question { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.question:last-child { border-bottom: none; }
+.question-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.3rem; }
+.question-text { font-size: 0.95rem; font-weight: 500; color: var(--text); line-height: 1.7; }
+.question-note { font-size: 0.82rem; font-style: italic; color: var(--text-3); margin-top: 0.3rem; }
+
+/* ---- Options grid ---- */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+}
+.option {
+    background: var(--surface);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.option:hover { background: var(--bg); }
+.option.selected { background: var(--accent-bg); }
+.option-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+}
+.option-desc {
+    font-size: 0.8rem;
+    color: var(--text-3);
+    line-height: 1.5;
+}
+
+/* ---- Page nav ---- */
+.page-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+.page-nav button {
+    background: none; border: none; font-family: inherit;
+    font-size: 0.9rem; font-weight: 500; color: var(--accent);
+    cursor: pointer; padding: 0.5rem 0; transition: opacity 0.15s;
+}
+.page-nav button:hover { opacity: 0.7; }
+.page-nav .ghost { visibility: hidden; }
+
+/* ---- Footer ---- */
+.footer {
+    margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    text-align: center; font-size: 0.8rem; color: var(--text-3); line-height: 1.8;
+}
+.footer strong { color: var(--text-2); font-weight: 600; }
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+    .container { padding: 2rem 1.25rem 3rem; }
+    h1 { font-size: 1.8rem; }
+    .options-grid { grid-template-columns: 1fr; }
+    .spectrum-header { grid-template-columns: 1fr; gap: 0.25rem; text-align: center !important; }
+    .spectrum-left, .spectrum-right { text-align: center !important; }
+    .spectrum-cols { grid-template-columns: 1fr; }
+    .vote-row { grid-template-columns: 1fr; }
+    .vote-btn:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+}
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header class="header">
+        <div class="header-label">Neuroscience &mdash; Adolescent Group</div>
+        <h1>Your Nervous System Has Three Modes</h1>
+        <p class="subtitle">The neuroscience of stress, and why your body does what it does</p>
+    </header>
+
+    <nav class="nav">
+        <button class="active" onclick="showPage(0, this)">Welcome</button>
+        <button onclick="showPage(1, this)">Three Modes</button>
+        <button onclick="showPage(2, this)">In Your Body</button>
+        <button onclick="showPage(3, this)">Practice</button>
+        <button onclick="showPage(4, this)">Discussion</button>
+        <button onclick="showPage(5, this)">Closing</button>
+    </nav>
+
+    <!-- ==================== PAGE 0: WELCOME ==================== -->
+    <div class="page active">
+        <div class="section-label warm">Welcome</div>
+        <h2><span class="timing">8 to 10 min</span>About today</h2>
+        <p class="body-text">Your nervous system has a job: keep you alive. It does this by switching between three modes depending on whether it reads the environment as safe, dangerous, or hopeless. Most of what feels like "overreacting" or "shutting down" is your nervous system doing exactly what it was built to do. Today we learn the three modes, how they show up in your body, and why eating disorder behaviors are often stress responses wearing a disguise.</p>
+
+        <div class="callout warm">
+            <div class="callout-label">Confidentiality</div>
+            <p>What's shared here stays here. Names, stories, details, all of it is protected. The only exception is safety.</p>
+        </div>
+
+        <div class="callout">
+            <p><strong>You can pass at any point.</strong> No explanation needed. If something doesn't fit right now, say "pass" and we move on.</p>
+        </div>
+
+        <hr class="divider">
+
+        <div class="section-label">Bridge questions</div>
+        <h2><span class="timing">10 to 12 min</span>Connecting in</h2>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <div class="step-q">When you're stressed, does your body speed up (heart racing, fidgeting, wanting to run) or slow down (heavy, numb, frozen)?</div>
+                    <div class="step-hint">Neither answer is wrong. Both are your nervous system doing its thing.</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <div class="step-q">Think of the last time you felt genuinely safe and relaxed. Where were you? Who were you with? What was your body doing?</div>
+                    <div class="step-hint">This might be hard to remember. If nothing comes to mind, that's useful information too.</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <div class="step-q">Does anyone in your life make you feel calmer just by being near them? What's different about being around that person?</div>
+                    <div class="step-hint">Nervous systems are contagious. A calm person literally settles the people around them.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-nav">
+            <button class="ghost">&#8592; Back</button>
+            <button onclick="showPage(1, navBtns[1])">Three Modes &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 1: THREE MODES ==================== -->
+    <div class="page">
+        <div class="section-label warm">Neuroscience</div>
+        <h2><span class="timing">15 to 20 min</span>The traffic light inside you</h2>
+        <p class="body-text">Stephen Porges, a neuroscientist, discovered that your nervous system operates in three modes. Think of it as a traffic light built into your body. You shift between these modes all day, sometimes in seconds. The shift isn't a choice. Your body reads the environment and responds before your conscious mind weighs in.</p>
+
+        <div class="spectrum-container">
+            <div class="spectrum-item active" onclick="toggleSpectrum(this)">
+                <div class="spectrum-header">
+                    <div class="spectrum-left">Shutdown</div>
+                    <div class="spectrum-middle">Green Zone</div>
+                    <div class="spectrum-right">Overdrive</div>
+                </div>
+                <div class="spectrum-bar"></div>
+                <div class="spectrum-detail">
+                    <p><strong>The Green Zone (Ventral Vagal): Safe and Connected.</strong> Your heart rate is steady. You can think clearly. You make eye contact. You can be curious about things. You can eat, digest, connect with people, and learn new information. This is where recovery happens. Not because it feels easy, but because your body is regulated enough to do hard things.</p>
+                    <div class="spectrum-cols">
+                        <div>
+                            <div class="spectrum-col-label good">Looks like</div>
+                            <div class="spectrum-col-text">Laughing with friends. Paying attention in class. Eating a meal without spiraling. Asking for help.</div>
+                        </div>
+                        <div>
+                            <div class="spectrum-col-label warn">Blocked by</div>
+                            <div class="spectrum-col-text">Chronic stress, trauma history, lack of safety, being in survival mode for too long.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spectrum-item" onclick="toggleSpectrum(this)">
+                <div class="spectrum-header">
+                    <div class="spectrum-left">Freeze</div>
+                    <div class="spectrum-middle">Red Zone</div>
+                    <div class="spectrum-right">Panic</div>
+                </div>
+                <div class="spectrum-bar"></div>
+                <div class="spectrum-detail">
+                    <p><strong>The Red Zone (Sympathetic): Fight or Flight.</strong> Your heart pounds. Your muscles tense. Your breathing gets shallow. Your body is preparing to fight a threat or run from it. This system saved your ancestors from predators. It doesn't know the difference between a bear and a comment about your body. Both register as danger.</p>
+                    <div class="spectrum-cols">
+                        <div>
+                            <div class="spectrum-col-label good">Looks like</div>
+                            <div class="spectrum-col-text">Snapping at someone during a meal. Wanting to leave the table. Panic before eating. Racing thoughts about food and body.</div>
+                        </div>
+                        <div>
+                            <div class="spectrum-col-label warn">In eating disorders</div>
+                            <div class="spectrum-col-text">Restricting to flee from fullness. Purging to fight the feeling of having eaten. Exercise as frantic escape.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spectrum-item" onclick="toggleSpectrum(this)">
+                <div class="spectrum-header">
+                    <div class="spectrum-left">Numb</div>
+                    <div class="spectrum-middle">Blue Zone</div>
+                    <div class="spectrum-right">Empty</div>
+                </div>
+                <div class="spectrum-bar"></div>
+                <div class="spectrum-detail">
+                    <p><strong>The Blue Zone (Dorsal Vagal): Shutdown.</strong> Everything goes still. You feel numb, heavy, or completely disconnected. This is the oldest survival response: when fighting and fleeing fail, the body plays dead. Energy conservation. Minimum output. You're not lazy or broken. You're in shutdown.</p>
+                    <div class="spectrum-cols">
+                        <div>
+                            <div class="spectrum-col-label good">Looks like</div>
+                            <div class="spectrum-col-text">Staring at your plate unable to eat. Feeling nothing. Dissociating during meals. The "I don't care" that actually means "I can't cope."</div>
+                        </div>
+                        <div>
+                            <div class="spectrum-col-label warn">In eating disorders</div>
+                            <div class="spectrum-col-text">Severe restriction as freeze. Emotional numbness that looks like apathy. Not eating because you literally cannot move toward food.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout cool">
+            <div class="callout-label">Clinical note</div>
+            <p>Your body decides which zone to enter based on signals it receives below conscious awareness. This process is called <strong>neuroception</strong>. You don't choose to shut down any more than you choose to flinch. Understanding this removes the blame.</p>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(0, navBtns[0])">&#8592; Welcome</button>
+            <button onclick="showPage(2, navBtns[2])">In Your Body &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 2: IN YOUR BODY ==================== -->
+    <div class="page">
+        <div class="section-label warm">Application</div>
+        <h2><span class="timing">10 to 15 min</span>How eating disorders hijack the stress response</h2>
+        <p class="body-text">Eating disorder behaviors are not random. They map directly onto nervous system states. Once you can see which zone a behavior belongs to, you can start understanding what your body is actually trying to do. The behavior isn't the problem. The stuck nervous system state is.</p>
+
+        <div class="accordion">
+            <div class="acc-item open">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="acc-title">Restriction as freeze response</div>
+                    <div class="acc-icon">+</div>
+                </div>
+                <div class="acc-body">
+                    <p>When your body perceives eating as threatening, it shuts down. The freeze response immobilizes you. You can't pick up the fork, not because you won't, but because your dorsal vagal system has decided that stillness is safest. Over time, malnutrition slows brain function, which reduces anxiety. The restriction reinforces itself: less eating equals less distress. The nervous system reads this as working.</p>
+                </div>
+            </div>
+            <div class="acc-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="acc-title">Bingeing as sympathetic discharge</div>
+                    <div class="acc-icon">+</div>
+                </div>
+                <div class="acc-body">
+                    <p>After hours or days in fight-or-flight, the body can't sustain the activation. It collapses. A binge often happens at this collapse point: rapid, dissociated eating that temporarily discharges the built-up tension. It provides short-term relief, but the nervous system doesn't actually regulate. The cycle repeats.</p>
+                </div>
+            </div>
+            <div class="acc-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="acc-title">Purging and the vagus nerve</div>
+                    <div class="acc-icon">+</div>
+                </div>
+                <div class="acc-body">
+                    <p>Vomiting directly stimulates the vagus nerve, triggering a parasympathetic response. The body reads this as settling. That false calm is the reinforcer. The nervous system learns: purging equals safety signal. This is why the urge to purge can feel almost reflexive. It's a conditioned vagal response.</p>
+                </div>
+            </div>
+            <div class="acc-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="acc-title">The window of tolerance</div>
+                    <div class="acc-icon">+</div>
+                </div>
+                <div class="acc-body">
+                    <p>Think of a window. Inside it, you can think, feel, and eat. Above the window (red zone), you're too activated. Below the window (blue zone), you're too shut down. People with eating disorders often have a narrow window, so they spend most of their time outside it. Recovery widens the window. Every time you tolerate a difficult feeling without using a behavior, the window gets slightly larger.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout warm">
+            <div class="callout-label">Important</div>
+            <p>Naming the nervous system function of your eating disorder is not the same as excusing the behavior. You can understand why your body chose restriction AND work to change it. Both things are true.</p>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(1, navBtns[1])">&#8592; Three Modes</button>
+            <button onclick="showPage(3, navBtns[3])">Practice &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 3: PRACTICE ==================== -->
+    <div class="page">
+        <div class="section-label warm">Practice</div>
+        <h2><span class="timing">15 min</span>Zone check</h2>
+        <p class="body-text">Each scenario describes a moment. Decide which nervous system zone the person is in: Green (safe), Red (fight/flight), or Blue (shutdown). Tap to see the answer and what would help.</p>
+
+        <div class="game-meta">
+            <div class="game-counter"><span id="game-n">1</span> / 6</div>
+            <div class="game-bar-wrap"><div class="game-bar-fill" id="game-bar"></div></div>
+            <div class="game-score-display"><span id="game-right">0</span> correct</div>
+        </div>
+
+        <div class="scenario-card" style="border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:0.75rem;">
+            <div class="scenario-body" style="padding:1.5rem 1.5rem 1.25rem; background:var(--surface);">
+                <div class="scenario-tricky" id="scenario-tricky" style="display:none;">Tricky</div>
+                <p class="scenario-text" id="scenario-text"></p>
+            </div>
+            <div class="vote-row">
+                <button class="vote-btn extreme-left" id="btn-left" onclick="vote('left')">Red</button>
+                <button class="vote-btn middle-btn" id="btn-middle" onclick="vote('middle')">Green</button>
+                <button class="vote-btn extreme-right" id="btn-right" onclick="vote('right')">Blue</button>
+            </div>
+            <div class="reveal-panel" id="reveal-panel">
+                <div class="reveal-verdict" id="reveal-verdict"></div>
+                <div class="reveal-why" id="reveal-why"></div>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button class="game-next-btn" id="game-next" onclick="nextScenario()" style="display:none;">Next scenario &#8594;</button>
+            <button class="game-next-btn" id="game-reset" onclick="resetGame()" style="display:none;">Try again</button>
+        </div>
+        <div id="game-end" style="display:none; text-align:center; padding:1rem 0; margin-bottom:1rem;">
+            <p style="font-size:0.95rem; font-weight:600; color:var(--text);">You got <span id="final-score"></span>.</p>
+            <p style="font-size:0.85rem; color:var(--text-3); margin-top:0.25rem;">The point isn't a perfect score. It's starting to see which zone you're in before the behavior takes over.</p>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(2, navBtns[2])">&#8592; In Your Body</button>
+            <button onclick="showPage(4, navBtns[4])">Discussion &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 4: DISCUSSION ==================== -->
+    <div class="page">
+        <div class="section-label warm">Group process</div>
+        <h2><span class="timing">10 min</span>Going deeper</h2>
+
+        <div class="questions">
+            <div class="question">
+                <div class="question-label">Self-awareness</div>
+                <div class="question-text">Which zone do you spend the most time in? Has that changed since you started treatment?</div>
+                <div class="question-note">Track the shift over time. Many people in early treatment are primarily in red or blue. Movement toward green is progress, even if it's brief.</div>
+            </div>
+            <div class="question">
+                <div class="question-label">Eating</div>
+                <div class="question-text">Which nervous system zone are you usually in at mealtimes? Does it change depending on the meal, the people, or the time of day?</div>
+                <div class="question-note">The specificity matters. "Breakfast is blue zone, dinner with family is red zone" gives them a map for where regulation work is most needed.</div>
+            </div>
+            <div class="question">
+                <div class="question-label">Regulation</div>
+                <div class="question-text">What helps you get back to the green zone? Is it a person, a place, a sensation, or something else?</div>
+                <div class="question-note">This identifies existing regulation strategies. Many teens already have green-zone anchors. Name them as resources.</div>
+            </div>
+            <div class="question">
+                <div class="question-label">Insight</div>
+                <div class="question-text">If your eating disorder is a stress response, what is it responding to?</div>
+                <div class="question-note">This is the deepest question. Don't rush it. If the room goes quiet, that's the question landing. Let it sit.</div>
+            </div>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(3, navBtns[3])">&#8592; Practice</button>
+            <button onclick="showPage(5, navBtns[5])">Closing &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 5: CLOSING ==================== -->
+    <div class="page">
+        <div class="section-label warm">This week</div>
+        <h2><span class="timing">5 to 8 min</span>Pick one</h2>
+        <p class="body-text">Choose one experiment. You're not mastering your nervous system. You're starting to notice it.</p>
+
+        <div class="options-grid">
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Zone check-in</div>
+                <div class="option-desc">Three times a day, pause and ask: which zone am I in right now? Green, red, or blue? No judgment. Just notice.</div>
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Body scan before meals</div>
+                <div class="option-desc">Before one meal this week, close your eyes for 30 seconds. Scan from feet to head. Name what you feel. Skip what you think.</div>
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Complete one stress cycle</div>
+                <div class="option-desc">After a hard moment, move your body for five minutes: walk, dance, shake, push against a wall. Let your body finish what the stress started.</div>
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Find your green</div>
+                <div class="option-desc">Identify one person, place, or activity that reliably brings you to green zone. Spend ten minutes there this week on purpose.</div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="section-label">Checkout</div>
+        <h2>One sentence</h2>
+        <p class="body-text">Name one thing you learned about your nervous system today and one concrete thing you want to try this week. Not a goal. A plan.</p>
+
+        <div class="callout cool">
+            <div class="callout-label">Facilitator note</div>
+            <p>Push for specificity on the checkout. "I'll pay more attention to my body" doesn't count. "I'm going to do a body scan before dinner on Wednesday" does. The nervous system changes through repetition of specific actions, not through intention alone.</p>
+        </div>
+
+        <div class="footer">
+            <strong>Crisis resources</strong><br>
+            988 Suicide &amp; Crisis Lifeline: call or text <strong>988</strong><br>
+            Crisis Text Line: text <strong>HELLO</strong> to 741741
+        </div>
+    </div>
+
+</div>
+
+<script>
+const pages = document.querySelectorAll('.page');
+const navBtns = document.querySelectorAll('.nav button');
+
+const scenarios = [
+    {
+        text: "Your heart is pounding before lunch. You're rehearsing excuses to leave the table. Your legs feel restless.",
+        answer: "left",
+        tricky: false,
+        verdictText: "Red Zone (Fight/Flight)",
+        why: "The body is mobilizing to escape. Heart pounding and restlessness are sympathetic activation. The rehearsal is the mind planning the flight. A TIPP skill here (cold water on face, paced breathing) would start to settle the activation."
+    },
+    {
+        text: "You're staring at your plate. Your mind is blank. Someone asks if you're okay and it takes you five seconds to process the question.",
+        answer: "right",
+        tricky: false,
+        verdictText: "Blue Zone (Shutdown)",
+        why: "Blank mind and delayed processing are dorsal vagal. The body has gone into conservation mode. Gentle movement (wiggling toes, squeezing fists) can start to bring the system back online. Pushing harder won't work. The system needs to be coaxed, not forced."
+    },
+    {
+        text: "You're at dinner with your family, laughing about something that happened at school. You eat without thinking much about it.",
+        answer: "middle",
+        tricky: false,
+        verdictText: "Green Zone (Safe & Connected)",
+        why: "Social engagement, laughter, and eating without hypervigilance are ventral vagal. The nervous system reads the environment as safe enough to connect and nourish. This is what recovery builds toward."
+    },
+    {
+        text: "After a weigh-in, you feel a hot wave of shame. You want to scream. Your fists are clenched.",
+        answer: "left",
+        tricky: false,
+        verdictText: "Red Zone (Fight)",
+        why: "Shame triggering anger is sympathetic activation in fight mode. The body is preparing to defend against a perceived attack. Paired muscle relaxation (tense and release) channels the activation into a controlled physical release."
+    },
+    {
+        text: "You ate your snack, but you can't remember tasting it. You feel heavy and far away, like you're watching yourself from across the room.",
+        answer: "right",
+        tricky: false,
+        verdictText: "Blue Zone (Dissociation)",
+        why: "Eating while dissociated is a freeze response. The body completed the task on autopilot while the conscious mind left the room. 5-4-3-2-1 grounding (name things you see, hear, touch) pulls sensory awareness back into the present."
+    },
+    {
+        text: "You're doing homework and your friend texts to hang out. You feel a spark of excitement and text back immediately.",
+        answer: "middle",
+        tricky: true,
+        verdictText: "Green Zone",
+        why: "Spontaneous excitement and social approach behavior are ventral vagal. The spark is your nervous system signaling safety. These moments may feel rare in treatment. Notice them when they happen."
+    }
+];
+
+let gameIndex = 0;
+let gameScore = 0;
+let gameAnswered = false;
+
+function loadScenario(i) {
+    const s = scenarios[i];
+    gameAnswered = false;
+    document.getElementById('scenario-text').textContent = s.text;
+    document.getElementById('scenario-tricky').style.display = s.tricky ? 'inline-block' : 'none';
+    document.getElementById('reveal-panel').classList.remove('show');
+    document.getElementById('reveal-verdict').textContent = '';
+    document.getElementById('reveal-why').textContent = '';
+    const leftBtn = document.getElementById('btn-left');
+    const midBtn = document.getElementById('btn-middle');
+    const rightBtn = document.getElementById('btn-right');
+    leftBtn.disabled = false;
+    midBtn.disabled = false;
+    rightBtn.disabled = false;
+    leftBtn.className = 'vote-btn extreme-left';
+    midBtn.className = 'vote-btn middle-btn';
+    rightBtn.className = 'vote-btn extreme-right';
+    leftBtn.textContent = 'Red';
+    midBtn.textContent = 'Green';
+    rightBtn.textContent = 'Blue';
+    document.getElementById('game-next').style.display = 'none';
+    document.getElementById('game-reset').style.display = 'none';
+    document.getElementById('game-end').style.display = 'none';
+    document.getElementById('game-n').textContent = i + 1;
+    document.getElementById('game-bar').style.width = (i / scenarios.length * 100) + '%';
+}
+
+function vote(choice) {
+    if (gameAnswered) return;
+    gameAnswered = true;
+    const s = scenarios[gameIndex];
+    const isCorrect = choice === s.answer;
+    if (isCorrect) gameScore++;
+
+    const leftBtn = document.getElementById('btn-left');
+    const midBtn = document.getElementById('btn-middle');
+    const rightBtn = document.getElementById('btn-right');
+    leftBtn.disabled = true;
+    midBtn.disabled = true;
+    rightBtn.disabled = true;
+
+    const btnMap = { left: leftBtn, middle: midBtn, right: rightBtn };
+    const correctBtn = btnMap[s.answer];
+    correctBtn.classList.add('correct');
+    if (!isCorrect) {
+        btnMap[choice].classList.add('wrong');
+    }
+
+    const verdictEl = document.getElementById('reveal-verdict');
+    verdictEl.textContent = s.verdictText;
+    verdictEl.className = 'reveal-verdict ' + (s.answer === 'middle' ? 'is-middle' : 'is-extreme');
+    document.getElementById('reveal-why').textContent = s.why;
+    document.getElementById('reveal-panel').classList.add('show');
+    document.getElementById('game-right').textContent = gameScore;
+
+    if (gameIndex < scenarios.length - 1) {
+        document.getElementById('game-next').style.display = 'inline-block';
+    } else {
+        document.getElementById('game-bar').style.width = '100%';
+        document.getElementById('final-score').textContent = gameScore + ' out of ' + scenarios.length;
+        document.getElementById('game-end').style.display = 'block';
+        document.getElementById('game-reset').style.display = 'inline-block';
+    }
+}
+
+function nextScenario() {
+    gameIndex++;
+    loadScenario(gameIndex);
+}
+
+function resetGame() {
+    gameIndex = 0;
+    gameScore = 0;
+    document.getElementById('game-right').textContent = 0;
+    loadScenario(0);
+}
+
+function showPage(idx, btn) {
+    pages.forEach(p => p.classList.remove('active'));
+    navBtns.forEach(b => b.classList.remove('active'));
+    pages[idx].classList.add('active');
+    navBtns[idx].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleSpectrum(el) {
+    const wasActive = el.classList.contains('active');
+    el.classList.toggle('active', !wasActive);
+}
+
+function toggleAcc(header) {
+    header.closest('.acc-item').classList.toggle('open');
+}
+
+function selectOption(el) {
+    el.classList.toggle('selected');
+}
+
+loadScenario(0);
+</script>
+</body>
+</html>
