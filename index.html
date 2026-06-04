@@ -712,38 +712,63 @@ h3 {
     <!-- ==================== PAGE 3: PRACTICE ==================== -->
     <div class="page">
         <div class="section-label warm">Practice</div>
-        <h2><span class="timing">15 min</span>Zone check</h2>
-        <p class="body-text">Each scenario describes a moment. Decide which nervous system zone the person is in: Green (safe), Red (fight/flight), or Blue (shutdown). Tap to see the answer and what would help.</p>
+        <h2><span class="timing">15 min</span>Zone ranger</h2>
+        <p class="body-text">You start in a nervous system zone. A push happens (something activating). Your job: identify which zone you're being pushed toward, then pick a regulation tool to stay grounded.</p>
 
-        <div class="game-meta">
-            <div class="game-counter"><span id="game-n">1</span> / 6</div>
-            <div class="game-bar-wrap"><div class="game-bar-fill" id="game-bar"></div></div>
-            <div class="game-score-display"><span id="game-right">0</span> correct</div>
-        </div>
+        <div id="zone-ranger-container" style="margin: 1.5rem 0;">
+            <!-- Current zone display -->
+            <div id="zone-status-bar" style="margin-bottom: 1.5rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px;">
+                <div style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.5rem;">You start here</div>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <div id="zone-start-label" style="font-size: 0.95rem; font-weight: 600; color: var(--text);"></div>
+                    <div style="flex: 1; height: 4px; background: var(--border); border-radius: 2px; position: relative;">
+                        <div id="zone-push-indicator" style="position: absolute; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; top: 50%; transform: translate(-50%, -50%); left: 25%; opacity: 0; transition: left 0.6s ease, opacity 0.6s ease;"></div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="scenario-card" style="border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:0.75rem;">
-            <div class="scenario-body" style="padding:1.5rem 1.5rem 1.25rem; background:var(--surface);">
-                <div class="scenario-tricky" id="scenario-tricky" style="display:none;">Tricky</div>
-                <p class="scenario-text" id="scenario-text"></p>
+            <!-- The push -->
+            <div id="zone-push-card" style="padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1.5rem;">
+                <div style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.5rem;">The push</div>
+                <p id="zone-push-text" style="font-size: 0.95rem; color: var(--text-2); line-height: 1.8; font-style: italic;"></p>
             </div>
-            <div class="vote-row">
-                <button class="vote-btn extreme-left" id="btn-left" onclick="vote('left')">Red</button>
-                <button class="vote-btn middle-btn" id="btn-middle" onclick="vote('middle')">Green</button>
-                <button class="vote-btn extreme-right" id="btn-right" onclick="vote('right')">Blue</button>
-            </div>
-            <div class="reveal-panel" id="reveal-panel">
-                <div class="reveal-verdict" id="reveal-verdict"></div>
-                <div class="reveal-why" id="reveal-why"></div>
-            </div>
-        </div>
 
-        <div class="game-controls">
-            <button class="game-next-btn" id="game-next" onclick="nextScenario()" style="display:none;">Next scenario &#8594;</button>
-            <button class="game-next-btn" id="game-reset" onclick="resetGame()" style="display:none;">Try again</button>
-        </div>
-        <div id="game-end" style="display:none; text-align:center; padding:1rem 0; margin-bottom:1rem;">
-            <p style="font-size:0.95rem; font-weight:600; color:var(--text);">You got <span id="final-score"></span>.</p>
-            <p style="font-size:0.85rem; color:var(--text-3); margin-top:0.25rem;">The point isn't a perfect score. It's starting to see which zone you're in before the behavior takes over.</p>
+            <!-- Two part challenge -->
+            <div id="zone-challenge-container" style="border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface);">
+                <!-- Part 1: Identify the zone being pushed to -->
+                <div style="padding: 1.25rem; border-bottom: 1px solid var(--border);">
+                    <p style="font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 0.75rem;">Step 1: Which zone are you being pushed toward?</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border);">
+                        <button id="zone-push-btn-left" class="zone-push-choice" onclick="identifyZonePush('left')" style="padding: 1rem; border: none; background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--cool); transition: background 0.15s;">Red (fight/flight)</button>
+                        <button id="zone-push-btn-mid" class="zone-push-choice" onclick="identifyZonePush('middle')" style="padding: 1rem; border: none; background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--accent); transition: background 0.15s;">Green (safe)</button>
+                        <button id="zone-push-btn-right" class="zone-push-choice" onclick="identifyZonePush('right')" style="padding: 1rem; border: none; background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--cool); transition: background 0.15s;">Blue (shutdown)</button>
+                    </div>
+                    <div id="zone-push-feedback" style="display: none; margin-top: 0.75rem; padding: 0.75rem; background: var(--bg); border-radius: 4px; font-size: 0.85rem; color: var(--text-2);"></div>
+                </div>
+
+                <!-- Part 2: Choose a regulation tool -->
+                <div id="zone-tool-section" style="display: none; padding: 1.25rem; border-top: 1px solid var(--border);">
+                    <p style="font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 0.75rem;">Step 2: Pick one tool to stay grounded</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border);">
+                        <button class="zone-tool-btn" onclick="selectRegulationTool(this, 'body')" style="padding: 1rem; border: none; background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--text-2); transition: background 0.15s;">Move your body</button>
+                        <button class="zone-tool-btn" onclick="selectRegulationTool(this, 'person')" style="padding: 1rem; border: none; background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--text-2); transition: background 0.15s;">Connect with someone</button>
+                        <button class="zone-tool-btn" onclick="selectRegulationTool(this, 'breath')" style="padding: 1rem; border: none; background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--text-2); transition: background 0.15s; border-top: 1px solid var(--border);">Slow your breath</button>
+                        <button class="zone-tool-btn" onclick="selectRegulationTool(this, 'sense')" style="padding: 1rem; border: none; background: var(--surface); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--text-2); transition: background 0.15s; border-top: 1px solid var(--border);">Engage a sense</button>
+                    </div>
+                    <div id="zone-tool-feedback" style="display: none; margin-top: 0.75rem; padding: 0.75rem; background: var(--bg); border-radius: 4px; font-size: 0.85rem; color: var(--text-2);"></div>
+                </div>
+            </div>
+
+            <!-- Next button -->
+            <div id="zone-next-container" style="display: none; text-align: right; margin-top: 1.5rem;">
+                <button onclick="nextZoneScenario()" style="background: none; border: none; font-family: inherit; font-size: 0.9rem; font-weight: 500; color: var(--accent); cursor: pointer; padding: 0.5rem 0; transition: opacity 0.15s;">Next scenario &#8594;</button>
+            </div>
+
+            <!-- End screen -->
+            <div id="zone-end-screen" style="display: none; padding: 2rem; text-align: center; background: var(--accent-bg); border-radius: 8px;">
+                <p style="font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">You navigated <span id="zone-final-count">0</span> pushes.</p>
+                <p style="font-size: 0.9rem; color: var(--text-2); line-height: 1.7;">The nervous system changes throughout the day. Your job isn't to stay in green. It's to notice the push, name the zone, and use one tool to keep yourself steady enough to keep going.</p>
+            </div>
         </div>
 
         <div class="page-nav">
@@ -835,130 +860,182 @@ h3 {
 const pages = document.querySelectorAll('.page');
 const navBtns = document.querySelectorAll('.nav button');
 
-const scenarios = [
+const zoneScenarios = [
     {
-        text: "Your heart is pounding before lunch. You're rehearsing excuses to leave the table. Your legs feel restless.",
-        answer: "left",
-        tricky: false,
-        verdictText: "Red Zone (Fight/Flight)",
-        why: "The body is mobilizing to escape. Heart pounding and restlessness are sympathetic activation. The rehearsal is the mind planning the flight. A TIPP skill here (cold water on face, paced breathing) would start to settle the activation."
+        startZone: "middle",
+        startLabel: "Green Zone (Safe)",
+        push: "You sit down to lunch. Your friend comments on how much you're eating. Your face gets hot.",
+        pushesTo: "left",
+        pushLabel: "Red Zone (Fight/Flight)",
+        correctTools: ['breath', 'body'],
+        toolExplanation: "You're being pushed into fight/flight (shame, heat, reactivity). Paced breathing or movement can help you stay somewhat grounded rather than escalating into the full reaction."
     },
     {
-        text: "You're staring at your plate. Your mind is blank. Someone asks if you're okay and it takes you five seconds to process the question.",
-        answer: "right",
-        tricky: false,
-        verdictText: "Blue Zone (Shutdown)",
-        why: "Blank mind and delayed processing are dorsal vagal. The body has gone into conservation mode. Gentle movement (wiggling toes, squeezing fists) can start to bring the system back online. Pushing harder won't work. The system needs to be coaxed, not forced."
+        startZone: "left",
+        startLabel: "Red Zone (Fight/Flight)",
+        push: "You've been anxious all day. By evening, you're exhausted. Your body feels heavy. Your mind goes blank.",
+        pushesTo: "right",
+        pushLabel: "Blue Zone (Shutdown)",
+        correctTools: ['body', 'sense'],
+        toolExplanation: "You're shifting from high activation to collapse. Gentle movement (wiggling toes, stretching) or engaging your senses (cold water, strong flavor) can help you stay somewhat awake instead of fully dissociating."
     },
     {
-        text: "You're at dinner with your family, laughing about something that happened at school. You eat without thinking much about it.",
-        answer: "middle",
-        tricky: false,
-        verdictText: "Green Zone (Safe & Connected)",
-        why: "Social engagement, laughter, and eating without hypervigilance are ventral vagal. The nervous system reads the environment as safe enough to connect and nourish. This is what recovery builds toward."
+        startZone: "middle",
+        startLabel: "Green Zone (Safe)",
+        push: "You're studying and realize you haven't eaten all day. Your stomach is growling. Your hands are shaking slightly.",
+        pushesTo: "left",
+        pushLabel: "Red Zone (Fight/Flight)",
+        correctTools: ['person', 'sense'],
+        toolExplanation: "Hunger is activating your nervous system. Talking to someone safe or grounding through a strong sensation (taste, temperature) can keep you present instead of spiraling into food anxiety."
     },
     {
-        text: "After a weigh-in, you feel a hot wave of shame. You want to scream. Your fists are clenched.",
-        answer: "left",
-        tricky: false,
-        verdictText: "Red Zone (Fight)",
-        why: "Shame triggering anger is sympathetic activation in fight mode. The body is preparing to defend against a perceived attack. Paired muscle relaxation (tense and release) channels the activation into a controlled physical release."
+        startZone: "left",
+        startLabel: "Red Zone (Fight/Flight)",
+        push: "You're in the middle of a workout, heart pounding, pushing hard. Your body suddenly feels disconnected. You stop but can't catch your breath.",
+        pushesTo: "right",
+        pushLabel: "Blue Zone (Shutdown)",
+        correctTools: ['breath', 'person'],
+        toolExplanation: "High activation can flip into shutdown fast. Paced breathing (slow, extended exhale) or calling someone can prevent full collapse and help you transition back to baseline."
     },
     {
-        text: "You ate your snack, but you can't remember tasting it. You feel heavy and far away, like you're watching yourself from across the room.",
-        answer: "right",
-        tricky: false,
-        verdictText: "Blue Zone (Dissociation)",
-        why: "Eating while dissociated is a freeze response. The body completed the task on autopilot while the conscious mind left the room. 5-4-3-2-1 grounding (name things you see, hear, touch) pulls sensory awareness back into the present."
+        startZone: "middle",
+        startLabel: "Green Zone (Safe)",
+        push: "You're at the dinner table with family. Someone brings up the fact that you haven't gained weight. Your chest tightens. Your mind races.",
+        pushesTo: "left",
+        pushLabel: "Red Zone (Fight/Flight)",
+        correctTools: ['breath', 'sense'],
+        toolExplanation: "You're being pushed into shame and defensiveness. Slowed breathing or touching something cold/textured under the table keeps some part of you regulated while the conversation continues."
     },
     {
-        text: "You're doing homework and your friend texts to hang out. You feel a spark of excitement and text back immediately.",
-        answer: "middle",
-        tricky: true,
-        verdictText: "Green Zone",
-        why: "Spontaneous excitement and social approach behavior are ventral vagal. The spark is your nervous system signaling safety. These moments may feel rare in treatment. Notice them when they happen."
+        startZone: "right",
+        startLabel: "Blue Zone (Shutdown)",
+        push: "You're numb all morning. Nothing feels real. Someone asks you a direct question and you can't find the words to answer.",
+        pushesTo: "middle",
+        pushLabel: "Green Zone (Safe)",
+        correctTools: ['body', 'sense'],
+        toolExplanation: "You're stuck in freeze. Gentle movement (standing, walking, shaking out your arms) or engaging senses (cold water on face, strong taste) can wake up your nervous system and bring you back to baseline."
     }
 ];
 
-let gameIndex = 0;
-let gameScore = 0;
-let gameAnswered = false;
+let zoneGameIndex = 0;
+let zoneCurrentScenario = null;
+let zonePushAnswered = false;
+let zoneToolAnswered = false;
+let zoneCompleted = 0;
 
-function loadScenario(i) {
-    const s = scenarios[i];
-    gameAnswered = false;
-    document.getElementById('scenario-text').textContent = s.text;
-    document.getElementById('scenario-tricky').style.display = s.tricky ? 'inline-block' : 'none';
-    document.getElementById('reveal-panel').classList.remove('show');
-    document.getElementById('reveal-verdict').textContent = '';
-    document.getElementById('reveal-why').textContent = '';
-    const leftBtn = document.getElementById('btn-left');
-    const midBtn = document.getElementById('btn-middle');
-    const rightBtn = document.getElementById('btn-right');
-    leftBtn.disabled = false;
-    midBtn.disabled = false;
-    rightBtn.disabled = false;
-    leftBtn.className = 'vote-btn extreme-left';
-    midBtn.className = 'vote-btn middle-btn';
-    rightBtn.className = 'vote-btn extreme-right';
-    leftBtn.textContent = 'Red';
-    midBtn.textContent = 'Green';
-    rightBtn.textContent = 'Blue';
-    document.getElementById('game-next').style.display = 'none';
-    document.getElementById('game-reset').style.display = 'none';
-    document.getElementById('game-end').style.display = 'none';
-    document.getElementById('game-n').textContent = i + 1;
-    document.getElementById('game-bar').style.width = (i / scenarios.length * 100) + '%';
+const ZONE_COLORS = {
+    left: '#4A8A7A',
+    middle: '#6A5A8A',
+    right: '#4A8A7A'
+};
+
+const ZONE_POSITIONS = {
+    left: 10,
+    middle: 50,
+    right: 90
+};
+
+function initZoneRanger() {
+    zoneGameIndex = 0;
+    zoneCompleted = 0;
+    loadZoneScenario();
 }
 
-function vote(choice) {
-    if (gameAnswered) return;
-    gameAnswered = true;
-    const s = scenarios[gameIndex];
-    const isCorrect = choice === s.answer;
-    if (isCorrect) gameScore++;
+function loadZoneScenario() {
+    zoneCurrentScenario = zoneScenarios[zoneGameIndex];
+    zonePushAnswered = false;
+    zoneToolAnswered = false;
 
-    const leftBtn = document.getElementById('btn-left');
-    const midBtn = document.getElementById('btn-middle');
-    const rightBtn = document.getElementById('btn-right');
-    leftBtn.disabled = true;
-    midBtn.disabled = true;
-    rightBtn.disabled = true;
+    document.getElementById('zone-start-label').textContent = zoneCurrentScenario.startLabel;
+    document.getElementById('zone-start-label').style.color = ZONE_COLORS[zoneCurrentScenario.startZone];
 
-    const btnMap = { left: leftBtn, middle: midBtn, right: rightBtn };
-    const correctBtn = btnMap[s.answer];
-    correctBtn.classList.add('correct');
-    if (!isCorrect) {
-        btnMap[choice].classList.add('wrong');
-    }
+    document.getElementById('zone-push-text').textContent = zoneCurrentScenario.push;
 
-    const verdictEl = document.getElementById('reveal-verdict');
-    verdictEl.textContent = s.verdictText;
-    verdictEl.className = 'reveal-verdict ' + (s.answer === 'middle' ? 'is-middle' : 'is-extreme');
-    document.getElementById('reveal-why').textContent = s.why;
-    document.getElementById('reveal-panel').classList.add('show');
-    document.getElementById('game-right').textContent = gameScore;
+    document.querySelectorAll('.zone-push-choice').forEach(btn => {
+        btn.disabled = false;
+        btn.style.background = 'var(--surface)';
+        btn.style.opacity = '1';
+    });
 
-    if (gameIndex < scenarios.length - 1) {
-        document.getElementById('game-next').style.display = 'inline-block';
+    document.getElementById('zone-push-feedback').style.display = 'none';
+    document.getElementById('zone-push-feedback').innerHTML = '';
+    document.getElementById('zone-tool-section').style.display = 'none';
+    document.getElementById('zone-next-container').style.display = 'none';
+    document.getElementById('zone-end-screen').style.display = 'none';
+    document.getElementById('zone-push-indicator').style.opacity = '0';
+}
+
+function identifyZonePush(choice) {
+    if (zonePushAnswered) return;
+    zonePushAnswered = true;
+
+    const isCorrect = choice === zoneCurrentScenario.pushesTo;
+    const feedback = document.getElementById('zone-push-feedback');
+
+    const zoneMap = { left: 'Red', middle: 'Green', right: 'Blue' };
+    const zoneLabelMap = { left: 'Fight/Flight', middle: 'Safe', right: 'Shutdown' };
+
+    document.querySelectorAll('.zone-push-choice').forEach(btn => btn.disabled = true);
+
+    if (isCorrect) {
+        document.getElementById('zone-push-btn-' + (choice === 'left' ? 'left' : choice === 'right' ? 'right' : 'mid')).style.background = 'var(--cool-bg)';
+        document.getElementById('zone-push-btn-' + (choice === 'left' ? 'left' : choice === 'right' ? 'right' : 'mid')).style.color = 'var(--cool)';
+        feedback.textContent = `✓ You identified the push. You're being pushed toward ${zoneMap[choice]} Zone (${zoneLabelMap[choice]}).`;
+        feedback.style.display = 'block';
+
+        document.getElementById('zone-push-indicator').style.left = ZONE_POSITIONS[choice] + '%';
+        document.getElementById('zone-push-indicator').style.opacity = '1';
+
+        setTimeout(() => {
+            document.getElementById('zone-tool-section').style.display = 'block';
+        }, 600);
     } else {
-        document.getElementById('game-bar').style.width = '100%';
-        document.getElementById('final-score').textContent = gameScore + ' out of ' + scenarios.length;
-        document.getElementById('game-end').style.display = 'block';
-        document.getElementById('game-reset').style.display = 'inline-block';
+        document.getElementById('zone-push-feedback').innerHTML = `<strong>Not quite.</strong> Think about how the push is activating your body. Is it speeding up, slowing down, or staying steady?`;
+        feedback.style.display = 'block';
+        document.querySelectorAll('.zone-push-choice').forEach(btn => btn.disabled = false);
     }
 }
 
-function nextScenario() {
-    gameIndex++;
-    loadScenario(gameIndex);
+function selectRegulationTool(btn, toolId) {
+    if (zoneToolAnswered) return;
+    zoneToolAnswered = true;
+
+    const isCorrect = zoneCurrentScenario.correctTools.includes(toolId);
+    const feedback = document.getElementById('zone-tool-feedback');
+
+    document.querySelectorAll('.zone-tool-btn').forEach(b => b.disabled = true);
+
+    if (isCorrect) {
+        btn.style.background = 'var(--accent-bg)';
+        btn.style.color = 'var(--accent)';
+        feedback.textContent = `✓ ${zoneCurrentScenario.toolExplanation}`;
+        feedback.style.display = 'block';
+        zoneCompleted++;
+
+        setTimeout(() => {
+            if (zoneGameIndex < zoneScenarios.length - 1) {
+                document.getElementById('zone-next-container').style.display = 'block';
+            } else {
+                document.getElementById('zone-end-screen').style.display = 'block';
+                document.getElementById('zone-final-count').textContent = zoneCompleted;
+            }
+        }, 800);
+    } else {
+        btn.style.background = '#E7E5E4';
+        btn.style.color = '#A8A29E';
+        feedback.textContent = `Not quite. Try a different tool. Think about what would help when the nervous system is being pushed in that direction.`;
+        feedback.style.display = 'block';
+        document.querySelectorAll('.zone-tool-btn').forEach(b => {
+            if (b !== btn) b.disabled = false;
+        });
+    }
 }
 
-function resetGame() {
-    gameIndex = 0;
-    gameScore = 0;
-    document.getElementById('game-right').textContent = 0;
-    loadScenario(0);
+function nextZoneScenario() {
+    zoneGameIndex++;
+    if (zoneGameIndex < zoneScenarios.length) {
+        loadZoneScenario();
+    }
 }
 
 function showPage(idx, btn) {
@@ -967,6 +1044,7 @@ function showPage(idx, btn) {
     pages[idx].classList.add('active');
     navBtns[idx].classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (idx === 3) initZoneRanger();
 }
 
 function toggleSpectrum(el) {
@@ -982,7 +1060,7 @@ function selectOption(el) {
     el.classList.toggle('selected');
 }
 
-loadScenario(0);
+initZoneRanger();
 </script>
 </body>
 </html>
